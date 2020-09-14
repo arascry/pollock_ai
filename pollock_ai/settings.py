@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = 'u*4dikyn!rygb#nh*d5bqu!9wju&aoeq(!013w=y2axow^#h0u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -68,16 +68,14 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'pollock_ai.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'pollock',
     }
 }
 
@@ -119,6 +117,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_REDIRECT_URL = '/paintings/'
+LOGOUT_REDIRECT_URL = '/'
 """
 Settings for production only -- uncomment before deploying to Heroku
 import django_heroku

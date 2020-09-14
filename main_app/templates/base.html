@@ -18,8 +18,7 @@
                 </ul>
                 <ul class="right">
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'paintings_create' %}">Create a Painting</a></li>
-                    <li><a href="{% url 'index' %}">See All Paintings</a></li>
+                    <li><a href="{% url 'index' %}">Gallery</a></li>
                     <li><a href="{% url 'logout' %}">Log Out</a></li>
                     {% else %}
                     <li><a href="{% url 'login' %}">Log In</a></li>
