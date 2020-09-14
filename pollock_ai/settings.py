@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'main_app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -120,6 +121,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 """
 Settings for production only -- uncomment before deploying to Heroku
-"""
 import django_heroku
 django_heroku.settings(locals())
+"""
