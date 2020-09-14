@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Home Page</h1>
+{% if error %}
+<h2>There was an Error!</h2>
+{% else %}
+<h2>No Error!</h2>
+{% endif %}
+<img src="data:image/png;base64,{{ img }}">
+<p>{{ text_form }}</p>
+<form action="{% url 'add_text' %}" method="POST">
+    {% csrf_token %}
+    <input type="text" name="painting_text">
+    <input type="submit" value="Add Text">
+</form>
+{% endblock %}
