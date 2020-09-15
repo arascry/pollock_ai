@@ -19,12 +19,26 @@
             <a class="nav-logo" href="{% url 'home' %}">Pollock AI</a>
             <div class="nav-menu">
                 {% if user.is_authenticated %}
-                <a href="{% url 'index' %}">Gallery</a>
-                <a href="{% url 'paintings_create' %}">Create Painting</a>
-                <a href="{% url 'logout' %}">Log Out</a>
+                <a 
+                    {% if request.resolver_match.view_name == 'index' %}
+                        id="active"
+                    {% endif %}
+                    class="nav-menu" 
+                    href="{% url 'index' %}">
+                    Gallery
+                </a>
+                <a 
+                    {% if request.resolver_match.view_name == 'paintings_create' %}
+                        id="active"
+                    {% endif %}
+                    class="nav-menu" 
+                    href="{% url 'paintings_create' %}">
+                    Create Painting
+                </a>
+                <a class="nav-menu" href="{% url 'logout' %}">Log Out</a>
                 {% else %}
-                <a href="{% url 'login' %}">Log In</a>
-                <a href="{% url 'signup' %}">Sign Up</a>
+                <a class="nav-menu" href="{% url 'login' %}">Log In</a>
+                <a class="nav-menu" href="{% url 'signup' %}">Sign Up</a>
                 {% endif %}
             </div>
         </nav>

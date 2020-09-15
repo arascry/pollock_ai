@@ -35,13 +35,16 @@ body {
     text-align: right
 }
 a {
+    text-decoration: none;
+}
+a.nav-logo, a.nav-menu {
     padding: 1vh 1vw;
     margin: 1vh 1vw;
-    text-decoration: none;
 }
 a:link, a:visited {
     color: rgb(192 192 192);
 }
+
 main {
     flex: 1 0 auto;
 }
@@ -53,6 +56,20 @@ form {
 }
 .helptext {
     display: block;
+}
+table {
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+}
+th {
+    text-align: left;
+}
+tr {
+    text-align: center;
+}
+td {
+    padding: 2px;
 }
 li {
     text-align: center;
@@ -78,6 +95,11 @@ button:hover, input:hover, a:hover{
     border-radius: 7px;
     box-shadow: 0 5px 5px 0 rgba(192,192,192,0.24), 0 12px 20px 0 rgba(100,100,100,0.19);
 }
+/* these are meant to target the detail view */
+img {
+    max-width: 100%
+}
+/* these are meant to target the list view */
 .gallery {
     justify-content: center;
     display: grid;
@@ -94,4 +116,7 @@ a.card-content {
     border: none;
     box-shadow: none;
     font-size: 50px;
+}
+#active {
+    opacity: .30;
 }
