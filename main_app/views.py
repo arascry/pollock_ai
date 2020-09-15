@@ -52,7 +52,7 @@ def add_text(request):
     })
 
 def upload_painting(name, painting_img):
-    print(painting_img)
+
     if painting_img:
         s3 = boto3.client(
             's3',

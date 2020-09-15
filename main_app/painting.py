@@ -57,5 +57,5 @@ def make_painting(name = 'Apple'):
     image_io = BytesIO()
     image.save(image_io, format='PNG')
     image_io.seek(0)
-    print(image_io)
+
     return image_io.getvalue()
