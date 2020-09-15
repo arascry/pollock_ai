@@ -9,7 +9,7 @@
     {% extends 'base.html' %}
     {% block content %}
     {% for painting in object_list %}
-        <a href="{% url 'detail' debt.id %}">
+        <a href="{% url 'detail' painting.id %}">
             {{painting.name}}
         </a>
         <br />

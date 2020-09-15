@@ -5,6 +5,7 @@ from .models import Painting
 from .forms import TextForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 def home(request):
     return render(request, 'home.html', context={
@@ -36,8 +37,8 @@ def add_text(request):
         'img': make_painting().decode('utf-8'),
         'error': error
     })
-class PaintingsList(ListView):
+class PaintingsList(LoginRequiredMixin, ListView):
     model = Painting
-class PaintingsDetail(DetailView):
+class PaintingsDetail(LoginRequiredMixin, DetailView):
     model = Painting
     fields = '__all__'

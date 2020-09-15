@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Home Page</h1>
+
 {% if error %}
 <h2>There was an Error!</h2>
 {% else %}
-<h2>No Error!</h2>
+{% comment %} <h2>No Error!</h2> {% endcomment %}
 {% endif %}
 <img src="data:image/png;base64,{{ img }}">
 <p>{{ text_form }}</p>

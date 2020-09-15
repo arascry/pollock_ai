@@ -20,7 +20,7 @@ def make_painting(name = 'Apple'):
     while x < 500 and y < 500 and x >= 0 and y >= 0:
         d.point((x, y), (255, 0, 0))
         direction = math.floor(random.random() * 4)
-        print(str(x) + ' ' + str(y))
+        # print(str(x) + ' ' + str(y))
         if(direction == 0):
             y -= 1
         elif(direction == 1):
@@ -40,7 +40,7 @@ def make_painting(name = 'Apple'):
     while x < 500 and y < 500 and x >= 0 and y >= 0:
         d.point((x, y), (100, 0, 0))
         direction = math.floor(random.random() * 4)
-        print(str(x) + ' ' + str(y))
+        # print(str(x) + ' ' + str(y))
         if(direction == 0):
             y -= 1
         elif(direction == 1):
