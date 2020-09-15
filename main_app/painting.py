@@ -56,5 +56,6 @@ def make_painting(name = 'Apple'):
 
     image_io = BytesIO()
     image.save(image_io, format='PNG')
-    image_string = base64.b64encode(image_io.getvalue())
-    return image_string
+    image_io.seek(0)
+
+    return image_io.getvalue()

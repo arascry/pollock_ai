@@ -9,3 +9,6 @@ class Painting(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created = models.DateField(auto_now_add=True)
     urls = ArrayField(base_field=models.URLField())
+
+    def get_absolute_url(self):
+        return reverse('detail', kwargs={'pk': self.id })

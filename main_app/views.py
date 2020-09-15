@@ -1,16 +1,28 @@
-from .painting import make_painting
 from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
+from .painting import make_painting
 from .models import Painting
 from .forms import TextForm
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
-from django.contrib.auth.mixins import LoginRequiredMixin
+
+import uuid
+import boto3
+import os
+import environ
+
+environ.Env()
+environ.Env.read_env()
+
+boto3.set_stream_logger('')
 # Create your views here.
 def home(request):
-    return render(request, 'home.html', context={
-        'img': make_painting().decode('utf-8')
-    })
+    return render(request, 'home.html')
+
 def signup(request):
     error_message = ''
     if request.method == 'POST':
@@ -24,6 +36,7 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
+
 def add_text(request):
     form = TextForm(request.POST)
     error = 'Blah'
@@ -37,8 +50,46 @@ def add_text(request):
         'img': make_painting().decode('utf-8'),
         'error': error
     })
+
+def upload_painting(name, painting_img):
+
+    if painting_img:
+        s3 = boto3.client(
+            's3',
+            aws_access_key_id = os.environ['ACCESS_ID'],
+            aws_secret_access_key = os.environ['SECRET_ID'],
+        )
+
+        key = uuid.uuid4().hex[:6] + str(name.rfind('.'))
+        try:
+            s3.put_object(
+                Bucket=os.environ['BUCKET'],
+                Key=key,
+                Body=painting_img,
+                ContentType='image/png'
+            )
+
+            #s3.upload_fileobj(painting_img, os.environ['BUCKET'], key)
+            url = f"{os.environ['S3_BASE_URL']}{os.environ['BUCKET']}/{key}"
+            return url
+        except:
+            print('An error occured uploading painting to S3')
+            return
+
+            
+class PaintingsCreate(LoginRequiredMixin, CreateView):
+    model = Painting
+    fields = ['name']
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.urls = [upload_painting(form.cleaned_data['name'], make_painting(form.cleaned_data['name']))]
+        return super().form_valid(form)
+
 class PaintingsList(LoginRequiredMixin, ListView):
     model = Painting
+    fields = ['name']
+
 class PaintingsDetail(LoginRequiredMixin, DetailView):
     model = Painting
     fields = '__all__'
