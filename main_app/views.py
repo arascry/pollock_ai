@@ -93,3 +93,7 @@ class PaintingsList(LoginRequiredMixin, ListView):
 class PaintingsDetail(LoginRequiredMixin, DetailView):
     model = Painting
     fields = '__all__'
+
+class PaintingsUpdate(LoginRequiredMixin, UpdateView):
+    model = Painting
+    fields = ['name']
