@@ -8,6 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .painting import make_painting
 from .models import Painting
+from django.contrib.auth.models import User
 from .forms import TextForm
 
 import uuid
@@ -101,3 +102,10 @@ class PaintingsUpdate(LoginRequiredMixin, UpdateView):
 class PaintingsDelete(LoginRequiredMixin, DeleteView):
     model = Painting
     success_url = '/paintings/'
+@login_required
+def user_detail(request, pk):
+    user = User.objects.get(id=pk)
+    num_paintings = len(Painting.objects.filter(user=pk))
+    return render(request, 'auth/user_detail.html', {
+        'num_paintings': num_paintings
+    })

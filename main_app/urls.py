@@ -9,5 +9,6 @@ urlpatterns = [
     path('paintings/<int:pk>/update', views.PaintingsUpdate.as_view(), name='paintings_update'),
     path('paintings/<int:pk>/delete', views.PaintingsDelete.as_view(), name='paintings_delete'),
     path('accounts/signup', views.signup, name='signup'),
+    path('accounts/<int:pk>', views.user_detail, name='user_detail'),
 ]
 
