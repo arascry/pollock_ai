@@ -18,7 +18,6 @@ import environ
 environ.Env()
 environ.Env.read_env()
 
-boto3.set_stream_logger('')
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
@@ -97,7 +96,7 @@ class PaintingsDetail(LoginRequiredMixin, DetailView):
 class PaintingsUpdate(LoginRequiredMixin, UpdateView):
     model = Painting
     fields = ['name']
-    
+
 class PaintingsDelete(LoginRequiredMixin, DeleteView):
     model = Painting
     success_url = '/paintings/'
