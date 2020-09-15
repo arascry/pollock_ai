@@ -94,6 +94,10 @@ class PaintingsDetail(LoginRequiredMixin, DetailView):
     model = Painting
     fields = '__all__'
 
+class PaintingsUpdate(LoginRequiredMixin, UpdateView):
+    model = Painting
+    fields = ['name']
+    
 class PaintingsDelete(LoginRequiredMixin, DeleteView):
     model = Painting
     success_url = '/paintings/'

@@ -6,6 +6,7 @@ urlpatterns = [
     path('paintings/', views.PaintingsList.as_view(), name='index'),
     path('paintings/<int:pk>', views.PaintingsDetail.as_view(), name='detail'),
     path('paintings/create', views.PaintingsCreate.as_view(), name='paintings_create'),
+    path('paintings/<int:pk>/update', views.PaintingsUpdate.as_view(), name='paintings_update'),
     path('paintings/<int:pk>/delete', views.PaintingsDelete.as_view(), name='paintings_delete'),
     path('accounts/signup', views.signup, name='signup'),
 ]
