@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<p>{{ painting.name }}</p>
-{% for url in painting.urls %}
-<img src="{{url}}" alt="painting">
-{% endfor %}
+<div class="card">
+    <div class="card-content">
+        <span class="card-title">
+            <h1>{{ painting.name }}</h1>
+        </span> 
+        {% for url in painting.urls %}
+        <img src="{{url}}" alt="painting">
+        {% endfor %}
+    </div>
+    <div class="card-action">
+        <a href="{% url 'paintings_delete' painting.id %}">delete this</a>
+    </div>
+</div>
 {% endblock %}
