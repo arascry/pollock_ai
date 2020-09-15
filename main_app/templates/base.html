@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,13 +12,15 @@
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
 
 </head>
+
 <body>
-    <header >
+    <header>
         <nav class="navbar-fixed">
             <a class="nav-logo" href="{% url 'home' %}">Pollock AI</a>
             <div class="nav-menu">
                 {% if user.is_authenticated %}
-                <a class="nav-menu" href="{% url 'index' %}">Gallery</a>
+                <a href="{% url 'index' %}">Gallery</a>
+                <a href="{% url 'paintings_create' %}">Create Painting</a>
                 <a href="{% url 'logout' %}">Log Out</a>
                 {% else %}
                 <a href="{% url 'login' %}">Log In</a>
@@ -34,4 +37,5 @@
         <div class="right">All Lefts Reserved, &copy; Aaron and Ian</div>
     </footer>
 </body>
+
 </html>
