@@ -21,9 +21,7 @@ environ.Env.read_env()
 boto3.set_stream_logger('')
 # Create your views here.
 def home(request):
-    return render(request, 'home.html', context={
-        'img': make_painting().decode('utf-8')
-    })
+    return render(request, 'home.html')
 
 def signup(request):
     error_message = ''
