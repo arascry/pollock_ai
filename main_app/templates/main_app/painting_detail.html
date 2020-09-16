@@ -10,8 +10,10 @@
         {% endfor %}
     </div>
     <div>
+        {% if painting.user == user %}
         <a href="{% url 'paintings_update' painting.id %}">update this</a>
         <a href="{% url 'paintings_delete' painting.id %}">delete this</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

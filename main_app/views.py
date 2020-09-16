@@ -98,9 +98,24 @@ class PaintingsUpdate(LoginRequiredMixin, UpdateView):
     model = Painting
     fields = ['name']
 
+    def dispatch(self, request, *args, **kwargs):
+        painting = Painting.objects.get(id=kwargs['pk'])
+        if self.request.user == painting.user:
+            return super(PaintingsUpdate, self).dispatch(request, *args, *kwargs)
+        else:
+            return redirect('detail', pk=kwargs['pk'])
+
 class PaintingsDelete(LoginRequiredMixin, DeleteView):
     model = Painting
     success_url = '/paintings/'
+
+    def dispatch(self, request, *args, **kwargs):
+        painting = Painting.objects.get(id=kwargs['pk'])
+        if self.request.user == painting.user:
+            return super(PaintingsDelete, self).dispatch(request, *args, *kwargs)
+        else:
+            return redirect('detail', pk=kwargs['pk'])    
+
 @login_required
 def user_detail(request, pk):
     user = User.objects.get(id=pk)
