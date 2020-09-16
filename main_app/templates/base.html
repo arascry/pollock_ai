@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
-
 </head>
 <body>
     <header>
@@ -33,8 +32,24 @@
                     href="{% url 'paintings_create' %}">
                     Create Painting
                 </a>
-                <a class="nav-menu" href="{% url 'logout' %}">Log Out</a>
-                <a class = "nav-menu" href="{% url 'user_detail' request.user.id %}">{{request.user}}</a>
+                <div class="dropdown">
+                    <a 
+                        id="profile"
+                        class="nav-menu"
+                        href="{% url 'user_detail' request.user.id %}" >
+                        <img 
+                            src="https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png" 
+                            alt="profile pic" />
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'user_detail' request.user.id %}">
+                            {{request.user}}'s profile
+                        </a>
+                        <a href="{% url 'logout' %}">
+                            Log Out
+                        </a>
+                    </div>
+                </div>
                 {% else %}
                 <a class="nav-menu" href="{% url 'login' %}">Log In</a>
                 <a class="nav-menu" href="{% url 'signup' %}">Sign Up</a>

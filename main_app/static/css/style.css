@@ -120,3 +120,28 @@ a.card-content {
 #active {
     opacity: .30;
 }
+/* avatar dropdown in navbar */
+#profile {
+    width: 50px;
+}
+.dropdown {
+    font-family: inherit;
+    margin: inherit;
+    background-color: inherit;
+}
+.dropdown-content {
+    display: none; 
+    position: absolute;
+    z-index: 1;
+}
+.dropdown-content a {
+    display: flex;
+    flex-direction: row;
+    font-family: inherit;
+    padding: inherit;
+    margin: inherit;
+    background-color: inherit;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
