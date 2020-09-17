@@ -6,10 +6,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
+
 from .painting import make_painting
 from .models import Painting
 from django.contrib.auth.models import User
-from .forms import TextForm
+from .forms import TextForm, SignupForm
 
 import uuid
 import boto3
@@ -26,14 +27,14 @@ def home(request):
 def signup(request):
     error_message = ''
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('index')
         else:
             error_message = 'The information you provided is invalid. Please, try again.'
-    form = UserCreationForm()
+    form = SignupForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
