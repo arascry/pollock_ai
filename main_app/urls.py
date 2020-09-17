@@ -10,5 +10,6 @@ urlpatterns = [
     path('paintings/<int:pk>/delete', views.PaintingsDelete.as_view(), name='paintings_delete'),
     path('accounts/signup', views.signup, name='signup'),
     path('accounts/<int:pk>', views.user_detail, name='user_detail'),
+    # path('accounts/password_reset', views.password_reset, name='password_reset'),
 ]
 
