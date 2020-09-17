@@ -15,6 +15,6 @@ class Painting(models.Model):
 
 class Word(models.Model):
     word = models.CharField(max_length=100)
-    seed = models.IntegerField()
+    seed = models.CharField(max_length=100)
     instruction = ArrayField(base_field=models.IntegerField())
     max_step = ArrayField(base_field=models.IntegerField())

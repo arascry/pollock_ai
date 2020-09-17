@@ -30,6 +30,27 @@ class StrokeInstructions:
         instruction = math.floor(self.rand.random() * 4)
         max_step = math.floor((self.rand.random() * 999) + 1)
         self.instructions.append({'instruction': instruction, 'max_step': max_step})
+        self.save_to_db()
+
+    def save_to_db(self):
+        instruction = []
+        max_step = []
+        for stroke in self.instructions:
+            instruction.append(stroke.get('instruction', 0))
+            max_step.append(stroke.get('max_step', 0))
+        word = Word.objects.filter(word=self.word)[0]
+        print(word)
+        if word:
+            word.instruction = instruction
+            word.max_step = max_step
+        else:
+            word = Word(
+                word=self.word, 
+                seed=self.seed,
+                instruction=instruction,
+                max_step=max_step)
+        word.save()
+
 
     def draw(self, img_w, img_h, d):
         for stroke in self.instructions:
@@ -235,8 +256,6 @@ def make_painting(name = 'Overlay Apple'):
 
     for word in str_list:
         temp = StrokeInstructions(word)
-        temp.generate_instruction()
-        temp.generate_instruction()
         temp.generate_instruction()
         temp.generate_instruction()
         temp.draw(500, 500, d)
