@@ -52,7 +52,14 @@ main {
 label {
     display: block;
 }
-a.auth-administrative, form {
+a.auth-administrative, 
+h1.auth-administrative, 
+h2.auth-administrative, 
+h3.auth-administrative, 
+h4.auth-administrative, 
+h5.auth-administrative, 
+p.auth-administrative, 
+form {
     color: rgb(110 110 110)
 }
 .helptext {

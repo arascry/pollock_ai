@@ -38,10 +38,6 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
-# def password_reset(request):
-
-#     return render(request, 'reset_password.html')
-
 def add_text(request):
     form = TextForm(request.POST)
     error = 'Blah'
