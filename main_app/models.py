@@ -12,3 +12,9 @@ class Painting(models.Model):
 
     def get_absolute_url(self):
         return reverse('detail', kwargs={'pk': self.id })
+
+class Word(models.Model):
+    word = models.CharField(max_length=100)
+    seed = models.IntegerField()
+    instruction = ArrayField(base_field=models.IntegerField())
+    max_step = ArrayField(base_field=models.IntegerField())
