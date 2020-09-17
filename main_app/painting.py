@@ -11,10 +11,19 @@ from .models import Word
 
 class StrokeInstructions:
     def __init__(self, word):
-        self.word = word
-        self.init_seed(word)
-        self.init_random()
-        self.instructions = []
+        db_word = Word.objects.filter(word=word).first()
+        if db_word:
+            self.word = db_word.word
+            self.seed = db_word.seed
+            self.init_random()
+            print(db_word.instruction)
+            print(db_word.max_step)
+            self.instructions = dict(zip(db_word.instruction, db_word.max_step))
+        else:
+            self.word = word
+            self.init_seed(word)
+            self.init_random()
+            self.instructions = []
 
     def init_seed(self, word):
         self.seed = reduce(lambda x, y: str(x) + str(y), map(ord, word))
@@ -24,7 +33,11 @@ class StrokeInstructions:
         self.rand.seed(self.seed)
 
     def nudge_seed(self, amount):
-        self.seed += amount
+        self.seed += str(amount)
+        print(self.seed)
+        db_word = Word.objects.filter(word=self.word).first()
+        db_word.seed = self.seed
+        db_word.save()
 
     def generate_instruction(self):
         instruction = math.floor(self.rand.random() * 4)
@@ -39,7 +52,6 @@ class StrokeInstructions:
             instruction.append(stroke.get('instruction', 0))
             max_step.append(stroke.get('max_step', 0))
         word = Word.objects.filter(word=self.word).first()
-        print(word)
         if word:
             word.instruction = instruction
             word.max_step = max_step
@@ -92,10 +104,6 @@ class StrokeInstructions:
             x = (max_w + min_w) / 2
             y = (max_h + min_h) / 2
             coord_list = [x, y]
-
-            print(f"{min_w} {x} {max_w}")
-            print(f"{min_h} {y} {max_h}")
-            print(step)
 
             while x < max_w and y < max_h and x >= min_w and y >= min_h and step != 0:
                 direction = math.floor(self.rand.random() * 4)
@@ -258,7 +266,12 @@ def make_painting(name = 'Overlay Apple'):
         temp = StrokeInstructions(word)
         temp.generate_instruction()
         temp.generate_instruction()
+        if (word == 'The'):
+            print('Nudging!')
+            temp.nudge_seed(5)
         temp.draw(500, 500, d)
+
+        
 
     image_io = BytesIO()
     image.save(image_io, format='PNG')
