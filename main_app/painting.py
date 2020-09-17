@@ -38,7 +38,7 @@ class StrokeInstructions:
         for stroke in self.instructions:
             instruction.append(stroke.get('instruction', 0))
             max_step.append(stroke.get('max_step', 0))
-        word = Word.objects.filter(word=self.word)[0]
+        word = Word.objects.filter(word=self.word).first()
         print(word)
         if word:
             word.instruction = instruction
