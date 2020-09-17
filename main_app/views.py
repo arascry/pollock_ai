@@ -120,8 +120,10 @@ class PaintingsDelete(LoginRequiredMixin, DeleteView):
 def user_detail(request, pk):
     user = User.objects.get(id=pk)
     paintings = Painting.objects.filter(user=pk)
+    avatar = Painting.objects.filter(user=pk).first()
     num_paintings = len(Painting.objects.filter(user=pk))
     return render(request, 'auth/user_detail.html', {
         'num_paintings': num_paintings,
-        'paintings': paintings
+        'paintings': paintings,
+        'avatar': avatar
     })
