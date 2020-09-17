@@ -119,7 +119,9 @@ class PaintingsDelete(LoginRequiredMixin, DeleteView):
 @login_required
 def user_detail(request, pk):
     user = User.objects.get(id=pk)
+    paintings = Painting.objects.filter(user=pk)
     num_paintings = len(Painting.objects.filter(user=pk))
     return render(request, 'auth/user_detail.html', {
-        'num_paintings': num_paintings
+        'num_paintings': num_paintings,
+        'paintings': paintings
     })
