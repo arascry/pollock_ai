@@ -7,6 +7,8 @@ from io import BytesIO
 from django.core.files.base import ContentFile
 from PIL import Image, ImageDraw
 
+from .models import Word
+
 class StrokeInstructions:
     def __init__(self, word):
         self.word = word
@@ -233,6 +235,10 @@ def make_painting(name = 'Overlay Apple'):
 
     for word in str_list:
         temp = StrokeInstructions(word)
+        temp.generate_instruction()
+        temp.generate_instruction()
+        temp.generate_instruction()
+        temp.generate_instruction()
         temp.draw(500, 500, d)
 
     image_io = BytesIO()
