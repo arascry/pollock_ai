@@ -153,3 +153,34 @@ a.card-content {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+/* hovering over an image in the gallery */
+/* .overlay {
+    display: none;
+    z-index: 2;
+}
+.gallery-active:hover, .overlay{
+    filter: grayscale(100%);
+    transition: 750ms;
+    display:inline;
+}
+.gallery-active {
+    font-family: inherit;
+    margin: inherit;
+    background-color: inherit;
+}
+.overlay {
+    display: none; 
+    position: absolute;
+    z-index: 1;
+}
+.overlay a {
+    display: flex;
+    flex-direction: row;
+    font-family: inherit;
+    padding: inherit;
+    margin: inherit;
+    background-color: inherit;
+}
+.gallery-active:hover .overlay {
+    display: block;
+} */

@@ -8,27 +8,34 @@
 <body>
     {% extends 'base.html' %}
     {% block content %}
-    <h1>Gallery</h1>
+    <h1 class="auth-administrative">Gallery</h1>
     <div class='gallery'>
         {% for painting in object_list %}
             <div class='card'>
-                <p>
-                    <a 
-                    class='card-content' 
-                    style="font-size:20px;"
-                    href="{% url 'detail' painting.id %}">
-                        {% for url in painting.urls %}
+                <div class='card-content'>
+                    {% for url in painting.urls %}
                         <img 
-                        class='card-content' 
+                        class='card-content'
                         src="{{url}}" 
                         alt="painting" />
-                        {% endfor %}
-                        <br />
-                        "{{painting.name}}"
+                    {% endfor %}
+                    <div>
+                    </div>
+                </div>
+                <br />
+                <a 
+                 style="font-size:20px;" 
+                href="{% url 'detail' painting.id %}">
+                    "{{painting.name}}"
+                </a>
+                <br>
+                <i>
+                    commissioned by 
+                    <a href="{% url 'user_detail' painting.user.id %}">
+                        {{painting.user.first_name}} {{painting.user.last_name}}
                     </a>
-                    <i>commissioned by {{painting.user}} </i>
-                </p>
-                <br /><br />
+                </i>
+            <br/><br/>
             </div>
         {% endfor %}
     </div>

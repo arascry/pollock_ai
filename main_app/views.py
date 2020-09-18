@@ -100,9 +100,11 @@ class PaintingsList(LoginRequiredMixin, ListView):
     def get(self, request, *args, **kwargs):
         avatar = Painting.objects.filter(user=request.user.id).last()
         avatar_url = avatar.urls[0]
+        # commissioner = User.objects.get(id=)
         context = locals()
         context['object_list'] = Painting.objects.all()
         context['avatar_url'] = avatar_url
+        # context['commissioner'] =
         return render(request, 'main_app/painting_list.html', context)
 
     def dispatch(self, request, *args, **kwargs):
