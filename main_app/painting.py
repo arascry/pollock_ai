@@ -17,6 +17,7 @@ class StrokeInstructions:
             self.seed = db_word.seed
             self.init_random()
             self.instructions = []
+            self.color = (db_word.color[0], db_word.color[1], db_word.color[2]) 
             for i in range(len(db_word.instruction)):
                 self.instructions.append({'instruction': db_word.instruction[i], 'max_step': db_word.max_step[i]})
             print(self.instructions)
@@ -24,7 +25,9 @@ class StrokeInstructions:
             self.word = word
             self.init_seed(word)
             self.init_random()
+            self.color = (math.floor(self.rand.random() * 256), math.floor(self.rand.random() * 256), math.floor(self.rand.random() * 256))
             self.instructions = []
+            self.generate_instruction()
 
     def init_seed(self, word):
         self.seed = reduce(lambda x, y: str(x) + str(y), map(ord, word))
@@ -34,8 +37,7 @@ class StrokeInstructions:
         self.rand.seed(self.seed)
 
     def nudge_seed(self, amount):
-        self.seed += str(amount)
-        print(self.seed)
+        self.seed = str(int(self.seed) + amount)
         db_word = Word.objects.filter(word=self.word).first()
         db_word.seed = self.seed
         db_word.save()
@@ -60,10 +62,10 @@ class StrokeInstructions:
             word = Word(
                 word=self.word, 
                 seed=self.seed,
+                color=list(self.color),
                 instruction=instruction,
                 max_step=max_step)
         word.save()
-
 
     def draw(self, img_w, img_h, d):
         for stroke in self.instructions:
@@ -77,31 +79,36 @@ class StrokeInstructions:
                 self.draw_walk(img_w, img_h, d, self.word)
             elif instruction == 3:
                 self.draw_line(img_w, img_h, d, self.word, max_step)
-                
+
+    def get_bounds(self, img_w, img_h):
+        xS = math.floor(self.rand.random() * img_w)
+        yS = math.floor(self.rand.random() * img_h)
+        xE = math.floor(self.rand.random() * img_w)
+        yE = math.floor(self.rand.random() * img_h)            
+        
+        while xS == xE:
+            xE = math.floor(self.rand.random() * img_w)
+        
+        while yS == yE:
+            yE = math.floor(self.rand.random() * img_h)
+
+        min_w = min(xS, xE)
+        min_h = min(yS, yE)
+        max_w = max(xS, xE)
+        max_h = max(yS, yE)
+
+        return [min_w, min_h, max_w, max_h]
+
     def draw_poly(self, img_w, img_h, d, word, max_step):
         for char in word:
             step = max_step
             
-            r = math.floor(self.rand.random() * 256)
-            g = math.floor(self.rand.random() * 256)
-            b = math.floor(self.rand.random() * 256)
+            r = self.color[0]
+            g = self.color[1]
+            b = self.color[2]
+            
+            min_w, min_h, max_w, max_h = self.get_bounds(img_w, img_h)
 
-            xS = math.floor(self.rand.random() * img_w)
-            yS = math.floor(self.rand.random() * img_h)
-            xE = math.floor(self.rand.random() * img_w)
-            yE = math.floor(self.rand.random() * img_h)            
-            
-            while xS == xE:
-                xE = math.floor(self.rand.random() * img_w)
-            
-            while yS == yE:
-                yE = math.floor(self.rand.random() * img_h)
-
-            min_w = min(xS, xE)
-            min_h = min(yS, yE)
-            max_w = max(xS, xE)
-            max_h = max(yS, yE)
-            
             x = (max_w + min_w) / 2
             y = (max_h + min_h) / 2
             coord_list = [x, y]
@@ -127,25 +134,12 @@ class StrokeInstructions:
     def draw_chord(self, img_w, img_h, d, word, max_step):
         for char in word:
             step = max_step
-            r = math.floor(self.rand.random() * 256)
-            g = math.floor(self.rand.random() * 256)
-            b = math.floor(self.rand.random() * 256)
 
-            xS = math.floor(self.rand.random() * img_w)
-            yS = math.floor(self.rand.random() * img_h)
-            xE = math.floor(self.rand.random() * img_w)
-            yE = math.floor(self.rand.random() * img_h)       
-            
-            while xS == xE:
-                xE = math.floor(self.rand.random() * img_w)
-            
-            while yS == yE:
-                yE = math.floor(self.rand.random() * img_h)                 
-            
-            min_w = min(xS, xE)
-            min_h = min(yS, yE)
-            max_w = max(xS, xE)
-            max_h = max(yS, yE)
+            r = self.color[0]
+            g = self.color[1]
+            b = self.color[2]
+
+            min_w, min_h, max_w, max_h = self.get_bounds(img_w, img_h)
             
             x = (max_w + min_w) / 2
             y = (max_h + min_h) / 2
@@ -173,25 +167,11 @@ class StrokeInstructions:
         for char in word:
             step = max_step
 
-            xS = math.floor(self.rand.random() * img_w)
-            yS = math.floor(self.rand.random() * img_h)
-            xE = math.floor(self.rand.random() * img_w)
-            yE = math.floor(self.rand.random() * img_h)         
-
-            while xS == xE:
-                xE = math.floor(self.rand.random() * img_w)
-            
-            while yS == yE:
-                yE = math.floor(self.rand.random() * img_h)
-
-            r = math.floor(self.rand.random() * 256)
-            g = math.floor(self.rand.random() * 256)
-            b = math.floor(self.rand.random() * 256)
-
-            min_w = min(xS, xE)
-            min_h = min(yS, yE)
-            max_w = max(xS, xE)
-            max_h = max(yS, yE)
+            r = self.color[0]
+            g = self.color[1]
+            b = self.color[2]
+           
+            min_w, min_h, max_w, max_h = self.get_bounds(img_w, img_h)
             
             x2 = (max_w + min_w) / 2
             y2 = (max_h + min_h) / 2
@@ -217,25 +197,11 @@ class StrokeInstructions:
     def draw_walk(self, img_w, img_h, d, word):
         for char in word:
 
-            xS = math.floor(self.rand.random() * img_w)
-            yS = math.floor(self.rand.random() * img_h)
-            xE = math.floor(self.rand.random() * img_w)
-            yE = math.floor(self.rand.random() * img_h)         
+            r = self.color[0]
+            g = self.color[1]
+            b = self.color[2]
 
-            while xS == xE:
-                xE = math.floor(self.rand.random() * img_w)
-            
-            while yS == yE:
-                yE = math.floor(self.rand.random() * img_h)
-
-            r = math.floor(self.rand.random() * 256)
-            g = math.floor(self.rand.random() * 256)
-            b = math.floor(self.rand.random() * 256)
-
-            min_w = min(xS, xE)
-            min_h = min(yS, yE)
-            max_w = max(xS, xE)
-            max_h = max(yS, yE)
+            min_w, min_h, max_w, max_h = self.get_bounds(img_w, img_h)
 
             x = (max_w + min_w) / 2
             y = (max_h + min_h) / 2
@@ -263,15 +229,7 @@ def make_painting(name = 'Overlay Apple'):
 
     for word in str_list:
         temp = StrokeInstructions(word)
-        temp.generate_instruction()
-        if (word == 'The'):
-            print('Nudging!')
-            temp.nudge_seed(5)
-            temp.generate_instruction()
         temp.draw(500, 500, d)
-
-        
-
     image_io = BytesIO()
     image.save(image_io, format='PNG')
     image_io.seek(0)

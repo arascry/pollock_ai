@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,37 +11,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
 </head>
+
 <body>
     <header>
         <nav class="navbar-fixed">
             <a class="nav-logo" href="{% url 'home' %}">Pollock AI</a>
             <div class="nav-menu">
                 {% if user.is_authenticated %}
-                <a 
-                    {% if request.resolver_match.view_name == 'index' %}
-                        id="active"
-                    {% endif %}
-                    class="nav-menu" 
+                <a {% if request.resolver_match.view_name == 'index' %} id="active" {% endif %} class="nav-menu"
                     href="{% url 'index' %}">
                     Gallery
                 </a>
-                <a 
-                    {% if request.resolver_match.view_name == 'paintings_create' %}
-                        id="active"
-                    {% endif %}
-                    class="nav-menu" 
-                    href="{% url 'paintings_create' %}">
+                <a {% if request.resolver_match.view_name == 'paintings_create' %} id="active" {% endif %}
+                    class="nav-menu" href="{% url 'paintings_create' %}">
                     Create Painting
                 </a>
                 {% if request.resolver_match.view_name != 'home' %}
                 <div class="dropdown">
-                    <a 
-                        id="profile"
-                        class="nav-menu"
-                        href="{% url 'user_detail' request.user.id %}" >
-                        <img 
-                            src="{{avatar_url}}"
-                            style="border: 1px outset rgb(192 192 192); border-radius:50%" 
+                    <a id="profile" class="nav-menu" href="{% url 'user_detail' request.user.id %}">
+                        <img src="{{avatar_url}}" style="border: 1px outset rgb(192 192 192); border-radius:50%"
                             alt="profile pic" />
                     </a>
                     <div class="dropdown-content">
@@ -68,4 +57,5 @@
         <div class="right">All Lefts Reserved, &copy; Aaron and Ian</div>
     </footer>
 </body>
+
 </html>
