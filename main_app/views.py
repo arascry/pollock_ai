@@ -90,6 +90,14 @@ class PaintingsCreate(LoginRequiredMixin, CreateView):
 class PaintingsList(LoginRequiredMixin, ListView):
     model = Painting
     fields = ['name']
+    def dispatch(self, request, *args, **kwargs):
+        avatar = Painting.objects.filter(user=request.user.id).last()
+        avatar_url = avatar.urls[0]
+        print("yooooo", request.user.id, 'avatar_url', avatar_url) 
+        return super(PaintingsList, self).dispatch(request, {
+            'avatar_url': avatar_url
+        })
+        
 
 class PaintingsDetail(LoginRequiredMixin, DetailView):
     model = Painting
@@ -121,10 +129,12 @@ class PaintingsDelete(LoginRequiredMixin, DeleteView):
 def user_detail(request, pk):
     user = User.objects.get(id=pk)
     paintings = Painting.objects.filter(user=pk)
-    avatar = Painting.objects.filter(user=pk).first()
+    avatar = Painting.objects.filter(user=pk).last()
+    avatar_url = avatar.urls[0]
     num_paintings = len(Painting.objects.filter(user=pk))
+    print("yooooo", request.user.id, 'avatar', avatar) 
     return render(request, 'auth/user_detail.html', {
         'num_paintings': num_paintings,
         'paintings': paintings,
-        'avatar': avatar
+        'avatar_url': avatar_url
     })

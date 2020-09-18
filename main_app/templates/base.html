@@ -32,13 +32,14 @@
                     href="{% url 'paintings_create' %}">
                     Create Painting
                 </a>
+                {% if request.resolver_match.view_name != 'home' %}
                 <div class="dropdown">
                     <a 
                         id="profile"
                         class="nav-menu"
                         href="{% url 'user_detail' request.user.id %}" >
                         <img 
-                            src="https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png"
+                            src="{{avatar_url}}"
                             style="border: 1px outset rgb(192 192 192); border-radius:50%" 
                             alt="profile pic" />
                     </a>
@@ -46,11 +47,12 @@
                         <a href="{% url 'user_detail' request.user.id %}">
                             {{request.user}}'s profile
                         </a>
-                        <a style="color:rgb(85 0 0)"href="{% url 'logout' %}">
+                        <a style="color:rgb(85 0 0)" href="{% url 'logout' %}">
                             log out
                         </a>
                     </div>
                 </div>
+                {% endif %}
                 {% else %}
                 <a class="nav-menu" href="{% url 'login' %}">Log In</a>
                 <a class="nav-menu" href="{% url 'signup' %}">Sign Up</a>
