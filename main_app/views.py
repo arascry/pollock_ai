@@ -90,13 +90,17 @@ class PaintingsCreate(LoginRequiredMixin, CreateView):
 class PaintingsList(LoginRequiredMixin, ListView):
     model = Painting
     fields = ['name']
-    def dispatch(self, request, *args, **kwargs):
+
+    def get(self, request, *args, **kwargs):
         avatar = Painting.objects.filter(user=request.user.id).last()
         avatar_url = avatar.urls[0]
-        print("yooooo", request.user.id, 'avatar_url', avatar_url) 
-        return super(PaintingsList, self).dispatch(request, {
-            'avatar_url': avatar_url
-        })
+        context = locals()
+        context['object_list'] = Painting.objects.all()
+        context['avatar_url'] = avatar_url
+        return render(request, 'main_app/painting_list.html', context)
+
+    def dispatch(self, request, *args, **kwargs):
+        return super(PaintingsList, self).dispatch(request, *args, **kwargs)
         
 
 class PaintingsDetail(LoginRequiredMixin, DetailView):
