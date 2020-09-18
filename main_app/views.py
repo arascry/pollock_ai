@@ -81,7 +81,13 @@ def upload_painting(name, painting_img):
 class PaintingsCreate(LoginRequiredMixin, CreateView):
     model = Painting
     fields = ['name']
-
+    def get(self, request, *args, **kwargs):
+        avatar = Painting.objects.filter(user=request.user.id).last()
+        avatar_url = avatar.urls[0]
+        context = locals()
+        context['object_list'] = Painting.objects.all()
+        context['avatar_url'] = avatar_url
+        return render(request, 'main_app/painting_form.html', context)
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.instance.urls = [upload_painting(form.cleaned_data['name'], make_painting(form.cleaned_data['name']))]
@@ -106,15 +112,30 @@ class PaintingsList(LoginRequiredMixin, ListView):
 class PaintingsDetail(LoginRequiredMixin, DetailView):
     model = Painting
     fields = '__all__'
+    def get(self, request, *args, **kwargs):
+        avatar = Painting.objects.filter(user=request.user.id).last()
+        avatar_url = avatar.urls[0]
+        painting = Painting.objects.get(id=kwargs['pk'])
+        context = locals()
+        context['painting'] = painting
+        context['avatar_url'] = avatar_url
+        return render(request, 'main_app/painting_detail.html', context)
 
 class PaintingsUpdate(LoginRequiredMixin, UpdateView):
     model = Painting
     fields = ['name']
-
-    def dispatch(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+        avatar = Painting.objects.filter(user=request.user.id).last()
+        avatar_url = avatar.urls[0]
         painting = Painting.objects.get(id=kwargs['pk'])
+        context = locals()
+        context['painting'] = painting
+        context['avatar_url'] = avatar_url
+        return render(request, 'main_app/painting_form.html', context)
+    def dispatch(self, request, *args, **kwargs):
+        painting = Painting.objects.get(pk=kwargs['pk'])
         if self.request.user == painting.user:
-            return super(PaintingsUpdate, self).dispatch(request, *args, *kwargs)
+            return super(PaintingsUpdate, self).dispatch(request, *args, **kwargs)
         else:
             return redirect('detail', pk=kwargs['pk'])
 
