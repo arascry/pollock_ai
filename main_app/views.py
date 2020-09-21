@@ -83,7 +83,9 @@ class PaintingsCreate(LoginRequiredMixin, CreateView):
     fields = ['name']
     def get(self, request, *args, **kwargs):
         avatar = Painting.objects.filter(user=request.user.id).last()
-        avatar_url = avatar.urls[0]
+        avatar_url = None
+        if avatar:
+            avatar_url = avatar.urls[0]
         context = locals()
         context['object_list'] = Painting.objects.all()
         context['avatar_url'] = avatar_url
@@ -99,7 +101,9 @@ class PaintingsList(LoginRequiredMixin, ListView):
 
     def get(self, request, *args, **kwargs):
         avatar = Painting.objects.filter(user=request.user.id).last()
-        avatar_url = avatar.urls[0]
+        avatar_url = None
+        if avatar:
+            avatar_url = avatar.urls[0]
         # commissioner = User.objects.get(id=)
         context = locals()
         context['object_list'] = Painting.objects.all()
@@ -116,7 +120,9 @@ class PaintingsDetail(LoginRequiredMixin, DetailView):
     fields = '__all__'
     def get(self, request, *args, **kwargs):
         avatar = Painting.objects.filter(user=request.user.id).last()
-        avatar_url = avatar.urls[0]
+        avatar_url = None
+        if avatar:
+            avatar_url = avatar.urls[0]
         painting = Painting.objects.get(id=kwargs['pk'])
         context = locals()
         context['painting'] = painting
