@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content%}
-<h2>Are you sure you want to delete "<span class="teal-text">{{object.name}}</span>"?</h2>
+<h2 class="auth-administrative">Are you sure you want to delete "{{painting.name}}"?</h2>
 <form action="" method="post">
     {% csrf_token %}
     <input type="submit" value="Yes." class="btn">
     <br><br>
-    <a href="{% url 'detail' object.id %}">No, take me back</a>
+    
 </form>
 {% endblock %}
