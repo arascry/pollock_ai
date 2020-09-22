@@ -177,5 +177,6 @@ def user_detail(request, pk):
     return render(request, 'auth/user_detail.html', {
         'num_paintings': num_paintings,
         'paintings': paintings,
-        'avatar_url': avatar_url
+        'avatar_url': avatar_url,
+        'user': user,
     })
