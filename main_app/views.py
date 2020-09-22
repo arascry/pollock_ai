@@ -83,7 +83,9 @@ class PaintingsCreate(LoginRequiredMixin, CreateView):
     fields = ['name']
     def get(self, request, *args, **kwargs):
         avatar = Painting.objects.filter(user=request.user.id).last()
-        avatar_url = avatar.urls[0]
+        avatar_url = None
+        if avatar:
+            avatar_url = avatar.urls[0]
         context = locals()
         context['object_list'] = Painting.objects.all()
         context['avatar_url'] = avatar_url
@@ -99,12 +101,13 @@ class PaintingsList(LoginRequiredMixin, ListView):
 
     def get(self, request, *args, **kwargs):
         avatar = Painting.objects.filter(user=request.user.id).last()
-        avatar_url = avatar.urls[0]
+        avatar_url = None
+        if avatar:
+            avatar_url = avatar.urls[0]
         # commissioner = User.objects.get(id=)
         context = locals()
         context['object_list'] = Painting.objects.all()
         context['avatar_url'] = avatar_url
-        # context['commissioner'] =
         return render(request, 'main_app/painting_list.html', context)
 
     def dispatch(self, request, *args, **kwargs):
@@ -116,7 +119,9 @@ class PaintingsDetail(LoginRequiredMixin, DetailView):
     fields = '__all__'
     def get(self, request, *args, **kwargs):
         avatar = Painting.objects.filter(user=request.user.id).last()
-        avatar_url = avatar.urls[0]
+        avatar_url = None
+        if avatar:
+            avatar_url = avatar.urls[0]
         painting = Painting.objects.get(id=kwargs['pk'])
         context = locals()
         context['painting'] = painting
@@ -129,9 +134,7 @@ class PaintingsUpdate(LoginRequiredMixin, UpdateView):
     def get(self, request, *args, **kwargs):
         avatar = Painting.objects.filter(user=request.user.id).last()
         avatar_url = avatar.urls[0]
-        painting = Painting.objects.get(id=kwargs['pk'])
         context = locals()
-        context['painting'] = painting
         context['avatar_url'] = avatar_url
         return render(request, 'main_app/painting_form.html', context)
     def dispatch(self, request, *args, **kwargs):
@@ -144,13 +147,24 @@ class PaintingsUpdate(LoginRequiredMixin, UpdateView):
 class PaintingsDelete(LoginRequiredMixin, DeleteView):
     model = Painting
     success_url = '/paintings/'
-
+    # pk_url_kwarg = (locals()['args'])[0]
+    def get(self, request, *args, **kwargs):
+        painting = Painting.objects.get(id=kwargs['pk'])
+        avatar = Painting.objects.filter(user=request.user.id).last()
+        avatar_url = avatar.urls[0]
+        context = locals()
+        # context['object'] = Painting.objects.get(id=(locals()['args'])[0])
+        print('locals only:', locals())
+        context['avatar_url'] = avatar_url
+        context['painting'] = painting
+        return render(request, 'main_app/painting_confirm_delete.html', context)
     def dispatch(self, request, *args, **kwargs):
         painting = Painting.objects.get(id=kwargs['pk'])
+        context = locals()
         if self.request.user == painting.user:
-            return super(PaintingsDelete, self).dispatch(request, *args, *kwargs)
+            return super(PaintingsDelete, self).dispatch(request, *args, **kwargs)
         else:
-            return redirect('detail', pk=kwargs['pk'])    
+            return redirect('index')    
 
 @login_required
 def user_detail(request, pk):
@@ -163,5 +177,6 @@ def user_detail(request, pk):
     return render(request, 'auth/user_detail.html', {
         'num_paintings': num_paintings,
         'paintings': paintings,
-        'avatar_url': avatar_url
+        'avatar_url': avatar_url,
+        'user': user,
     })

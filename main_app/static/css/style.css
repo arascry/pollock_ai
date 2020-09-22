@@ -52,32 +52,28 @@ main {
 label {
     display: block;
 }
-a.auth-administrative, 
-h1.auth-administrative, 
-h2.auth-administrative, 
-h3.auth-administrative, 
-h4.auth-administrative, 
-h5.auth-administrative, 
-p.auth-administrative, 
-form {
+.auth-administrative, form {
     color: rgb(110 110 110)
 }
 .helptext {
     display: block;
 }
-table {
-    margin: 10px;
-    align-content: center;
+.table {
+    display: flex;
+    flex-direction: row;
     justify-content: center;
 }
-th {
-    text-align: left;
+table {
+    margin: 5px;
 }
-tr {
-    text-align: left;
+thead, tbody {
+}
+th, tr {
+    text-align: center;
+    padding: 0 2.5em 0 2.5em;
 }
 td {
-    padding: 2px;
+    padding: 1em;
 }
 li {
     text-align: center;
