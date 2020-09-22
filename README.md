@@ -7,7 +7,7 @@
 
 
 ## Future enhancements
-We're excited about learning AI and hope to maintain Pollock AI indefinitely. Besides improving the AI, here's our wish list:
+We're excited about learning AI and hope to maintain Pollock AI indefinitely. Besides improving the AI, here are just a few items our wish list:
 * Commenting and rating other users' paintings
 * Custom deployment with our own domain
 * A lightweight monetization solution to pay for hosting, domains, etc.
